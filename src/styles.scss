@@ -1,0 +1,47 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+#main {
+  margin: 60px auto 0;
+}
+.AddNewLayout {
+  & {
+    position: absolute;
+    left: 15px;
+    top: 0;
+    right: 15px;
+    height: 100%;
+    z-index: 2;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid #ddd;
+    text-align: center;
+  }
+  .btn{margin-top: 150px;}
+}
+footer {
+  & {
+    display: none;
+    padding: 15px 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.25);
+  }
+}
+.loadingAnim {
+  & {
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    padding: 50px 15px;
+    background: rgba(0, 0, 0, 0.5);
+  }
+}

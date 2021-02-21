@@ -1,0 +1,123 @@
+<div class="row">
+  <div class="col-md-4">
+    <div class="form-group">
+      <label>Name</label>
+      <dx-text-box [class.required]="true" [(value)]="budget.name" (onFocusIn)="selectText($event)">
+        <dx-validator>
+          <dxi-validation-rule type="required" message="This field is required"></dxi-validation-rule>
+        </dx-validator>
+      </dx-text-box>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12" *ngIf="budget.accounts">
+    <a *ngIf="budget.accounts && budget.accounts.length >= 1" class="btn btn-primary" (click)="addAccountPrepare()">Add
+      accounts</a>
+    <div *ngIf="!budget.accounts || budget.accounts.length < 1" class="AddNewLayout">
+      <a class="btn btn-primary" (click)="addAccountPrepare()">Start adding accounts</a>
+    </div>
+    <div class="form-group">
+      <dx-data-grid #grid [dataSource]="budget.accounts" height="300" [remoteOperations]="false"
+        [allowColumnReordering]="true" [rowAlternationEnabled]="true" [showBorders]="true"
+        (onCellClick)="openAccount($event)">
+
+        <dxo-paging [pageSize]="10"></dxo-paging>
+        <dxo-pager [showPageSizeSelector]="false" [allowedPageSizes]="[10, 25, 50, 100]"></dxo-pager>
+        <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true"></dxo-search-panel>
+        <dxo-group-panel [visible]="false"></dxo-group-panel>
+        <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+        <dxi-column caption="Name" dataField="name" dataType="string"></dxi-column>
+        <dxi-column caption="Type" dataField="type" dataType="string"></dxi-column>
+        <dxi-column caption="Note" dataField="note" dataType="string"></dxi-column>
+        <dxi-column caption="closed" dataField="closed" dataType="boolean"></dxi-column>
+        <dxi-column caption="Balance" dataField="balance" dataType="number"></dxi-column>
+        <dxo-summary>
+          <dxi-total-item column="name" summaryType="count"></dxi-total-item>
+        </dxo-summary>
+      </dx-data-grid>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="form-group">
+      <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" aria-expanded="false"
+        aria-controls="multiCollapseExample1">Payee transactions</a>
+    </div>
+    <div class="collapse multi-collapse" id="multiCollapseExample1">
+      <div class="card card-body">
+        <dx-data-grid #grid [dataSource]="budget.payees" height="300" [remoteOperations]="false"
+          [allowColumnReordering]="true" [rowAlternationEnabled]="true" [showBorders]="true">
+
+          <dxo-paging [pageSize]="10"></dxo-paging>
+          <dxo-pager [showPageSizeSelector]="false" [allowedPageSizes]="[10, 25, 50, 100]"></dxo-pager>
+          <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true"></dxo-search-panel>
+          <dxo-group-panel [visible]="false"></dxo-group-panel>
+          <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+          <dxi-column caption="Name" dataField="name" dataType="string"></dxi-column>
+          <dxo-summary>
+            <dxi-total-item column="name" summaryType="count"></dxi-total-item>
+          </dxo-summary>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#accountModal">
+  Launch demo modal
+</button> -->
+
+<!-- Modal -->
+<div class="modal fade" id="accountModal" tabindex="-1" aria-labelledby="accountModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="accountModalLabel">New account</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Name</label>
+              <dx-text-box [class.required]="true" [(value)]="tempAccount.name" (onFocusIn)="selectText($event)">
+                <dx-validator>
+                  <dxi-validation-rule type="required" message="This field is required"></dxi-validation-rule>
+                </dx-validator>
+              </dx-text-box>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Type</label>
+              <dx-select-box [dataSource]="typesLookup" displayExpr="name" valueExpr="name"
+                [(value)]="tempAccount.type">
+                <dx-validator>
+                  <dxi-validation-rule type="required" message="This field is required"></dxi-validation-rule>
+                </dx-validator>
+              </dx-select-box>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Balance</label>
+              <dx-number-box [(value)]="tempAccount.balance" (onFocusIn)="selectText($event)">
+                <dx-validator>
+                  <dxi-validation-rule type="required" message="This field is required"></dxi-validation-rule>
+                </dx-validator>
+              </dx-number-box>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="saveAccountForBudget()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
